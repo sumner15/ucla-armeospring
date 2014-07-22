@@ -53,7 +53,7 @@ clear dateStamp timeStamp trialTime i
 %% %%%%%%%%% parsing sub-trials  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 trials = 6; trialData = cell(1,trials);         %creating vars
 newTrialInd = ones(1,trials);                   %indexing new trials
-newTrialInd(1,2:trials) = find(trialElap>0.05);
+newTrialInd(1,2:trials) = find(trialElap>.99);
 
 for i = 1:trials-1                              %filling data into cells    
     trialData{i} = data(newTrialInd(i):newTrialInd(i+1)-1,:);    
