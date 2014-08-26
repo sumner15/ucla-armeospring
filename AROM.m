@@ -66,9 +66,10 @@ trialNames = {'Shoulder up/dn','Shoulder in/out','Shoulder rotation',...
     'Elbow rotation','Pro/Supination','Flex/Extension'};
 
 Joint_Positions = figure(1);    %plotting joint positions for each trial
+suptitle(strcat(subjectID,' AROM Joint Displacement Across Trials'));
 for i = 1:trials
     subplot(2,3,i); 
-    plot(trialData{i}(:,1),trialData{i}(:,5:12));
+    plot(trialData{i}(:,1),trialData{i}(:,5:12));    
     title(trialNames(i),'FontSize',16); 
     xlabel('Trial Time (sec)','FontSize',12); 
     ylabel('Joint Positions','FontSize',12);    
@@ -77,7 +78,7 @@ end
 scrsz = get(0,'ScreenSize'); set(Joint_Positions,'Position',scrsz)
 legend(titles(5:12),'Location','Best')
 
-clear i Joint_Positions scrsz
+clear i Joint_Positions
 
 %% %%%%%%%%% calculating displacements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -99,7 +100,19 @@ for joint = 5:12
     cellMaxDisps{1,joint-3} = titles{1,joint}; end
 open('cellMaxDisps');
 
-clear trial joint
+% plotting maximum displacements by trial
+Max_Disps = figure(2);
+set(Max_Disps,'Position',scrsz)
+plot(maxDisps,'x','LineWidth',7);
+title(strcat(subjectID,' Maximum Displacement'))
+ylabel('Maximum Displacement'); set(gca,'XTickLabel',trialNames)
+legend(titles(5:12),'Location','Best');
+for i = 1:numel(maxDisps)
+   text(i-6*(ceil(i/6)-1)+0.1, maxDisps(i),num2str(maxDisps(i)));
+end
+xlim([0.5 6.5])
+
+clear i trial joint Max_Disps scrsz
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 cd(homePath)
 
